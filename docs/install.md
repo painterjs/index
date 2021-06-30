@@ -108,11 +108,90 @@ new Painter.Pen(bottomContext.current, bottomDraw).paint(() => {
 <b>Miniprogram </b>
 </summary>
 For Taro:
+由于多端小程序的特殊性，为了抹平 canvas2D Api 的差异性，我们除了接入 painter-kernel，还需要另外接入[适配层](https://github.com/Kujiale-Mobile/Painter/blob/master/components/painter/lib/wx-canvas.js)文件。
 
 ```tsx
+import * as Painter from "painter-kernel";
+import WxCanvas from "./lib/wx-canvas";
 
-// TODO
+const Index: FC<IPainterProps> = (props: IPainterProps) => {
+  useEffect(() => {});
+  const photoContext = useRef<WxCanvas>();
+  const template = {
+    width: "654rpx",
+    height: "1000rpx",
+    background: "#eee",
+    views: [
+      {
+        type: "rect",
+        css: {
+          width: "200rpx",
+          right: "20rpx",
+          top: "30rpx",
+          height: "100rpx",
+          borderRadius: "100%",
+          shadow: "10rpx 10rpx 5rpx #888888",
+          color:
+            "linear-gradient(-135deg, #fedcba 0%, rgba(18, 52, 86, 1) 20%, #987 80%)",
+        },
+      },
+    ],
+  };
+  function getCanvasContext(use2D, id): Promise<WxCanvas> {
+    return new Promise((resolve) => {
+      if (use2D) {
+        const query = Taro.createSelectorQuery().in(getCurrentInstance().page!);
+        const selectId = `#${id}`;
+        query
+          .select(selectId)
+          .fields({ node: true, size: true })
+          .exec((res) => {
+            that.canvasNode = res[0].node;
+            const ctx = that.canvasNode!.getContext("2d");
+            const wxCanvas = new WxCanvas("2d", ctx, id, true, that.canvasNode);
+            resolve(wxCanvas);
+          });
+      } else {
+        const temp = Taro.createCanvasContext(id, getCurrentInstance().page!);
+        resolve(new WxCanvas("mina", temp, id, true));
+      }
+    });
+  }
+  photoContext.current ||
+    (photoContext.current = await getCanvasContext(props.use2D, "photo"));
+  new Painter.Pen(photoContext.current, template).paint(() => {
+    photoContext.current!.draw();
+  });
+};
+```
 
+为了降低大家在小程序端的使用成本，我们封装了 Taro 版本的的组件。
+
+```shell
+// Taro2.0
+npm i mina-painter
+// Taro3.0
+npm i painter-taro-3
+```
+
+使用方法：
+
+```tsx
+import { Painter } from 'painter-taro-3';
+// or import { Painter } from 'mina-painter';
+const paintPalette = {
+  // template
+}
+function onImgOK(path) {
+    // output imagePath
+}
+
+<Painter
+  customStyle="margin-left: 40rpx; height: 1000rpx;"
+  palette={paintPalette}
+  onImgOK={onImgOK}
+  use2D
+/>
 ```
 
 </details>
