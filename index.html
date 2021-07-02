@@ -16,49 +16,6 @@
       crossorigin="anonymous"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.0/jsoneditor.min.js"></script>
-    <script
-      type="text/javascript"
-      src="https://qhstaticssl.kujiale.com/newt/100449/text/javascript/1624518756128/7CED17CC2128957E155F37D5DB9DFD5C.js"
-    ></script>
-    <script type="text/javascript">
-      Painter.default.initInjection({
-        loadImage: async url => {
-          return new Promise(resolve => {
-            const img = new Image();
-            img.onload = function () {
-              resolve({
-                img,
-                height: img.height,
-                width: img.width,
-              });
-            };
-            img.src = url;
-          });
-        },
-        customActions: {
-          svg: {
-            layout: (view, rects) => {
-              console.log(rects);
-              return {
-                left: view.css.left,
-                top: view.css.top,
-                bottom: view.css.top + view.css.height,
-                right: view.css.left + view.css.width,
-              };
-            },
-            draw: async (view, ctx) => {
-              ctx.lineWidth = 10;
-              ctx.beginPath();
-              ctx.moveTo(0, 0);
-              ctx.lineTo(100, 100);
-              ctx.closePath();
-              ctx.strokeStyle = '#000000';
-              ctx.stroke();
-            },
-          },
-        },
-      });
-    </script>
   </head>
   <body>
     <nav class="navbar navbar-light bg-light navbar-expand-lg">
@@ -108,56 +65,42 @@
         </div>
       </div>
     </div>
-    <script>
+    <script type="module">
+      import * as Painter from './assets/painter.js'
+      import initialJson from './assets/example.js'
+
+      Painter.initInjection({
+        loadImage: async url => {
+          return new Promise(resolve => {
+            const img = new Image();
+            img.onload = function () {
+              resolve({
+                img,
+                height: img.height,
+                width: img.width,
+              });
+            };
+            img.src = url;
+          });
+        }
+      });
       // create the editor
       const container = document.getElementById('jsoneditor');
       const options = { mode: 'code' };
       const editor = new JSONEditor(container, options);
 
-      // set json
-      const initialJson = {
-        width: '308px',
-        height: '500px',
-        background: '#fff',
-        views: [
-          {
-            type: 'rect',
-            css: {
-              width: '20px',
-              height: '20px',
-              left: '0rpx',
-              top: '0rpx',
-              color: 'black',
-            },
-          },
-          {
-            type: 'qrcode',
-            content: 'https://github.com/Kujiale-Mobile/Painter',
-            css: {
-              bottom: '40px',
-              left: '180px',
-              color: 'red',
-              borderWidth: '10px',
-              borderColor: 'blue',
-              borderStyle: 'dashed',
-              width: '120px',
-              height: '120px',
-            },
-          },
-        ],
-      };
       editor.set(initialJson);
 
+      const CanvasNode = document.getElementById('canvas');
+      const canvas = CanvasNode.getContext('2d');
       // get json
       generatePic();
 
       function generatePic() {
-        const CanvasNode = document.getElementById('canvas');
-        const canvas = CanvasNode.getContext('2d');
         const template = editor.get();
         CanvasNode.width = template.width.replace('px', '');
         CanvasNode.height = template.height.replace('px', '');
-        let pen = new Painter.default.Pen(canvas, template);
+        let pen = new Painter.Pen(canvas, template);
         pen.paint(() => {
           console.log('ok');
         });
