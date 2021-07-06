@@ -66,7 +66,7 @@
       </div>
     </div>
     <script type="module">
-      import * as Painter from './assets/painter.js'
+      import * as Painter from 'https://cdn.jsdelivr.net/npm/painter-kernel@latest/dist/painter.min.js'
       import initialJson from './assets/example.js'
 
       Painter.initInjection({
@@ -98,8 +98,8 @@
 
       function generatePic() {
         const template = editor.get();
-        CanvasNode.width = template.width.replace('px', '');
-        CanvasNode.height = template.height.replace('px', '');
+        CanvasNode.width = Painter.toPx(template.width);
+        CanvasNode.height = Painter.toPx(template.height);
         let pen = new Painter.Pen(canvas, template);
         pen.paint(() => {
           console.log('ok');
