@@ -8,7 +8,10 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.0.0/build/styles/default.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.0.0/build/styles/default.min.css"
+    />
     <link
       rel="stylesheet"
       type="text/css"
@@ -36,35 +39,24 @@
   <body>
     <nav class="navbar navbar-light bg-light navbar-expand-lg position-fixed top-0" style="z-index: 999; width: 100vw">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/index.html">
-          <img src="./assets/logo.svg" alt="" width="30" height="30" class="d-inline-block align-text-top" />
-          Painter.js
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-link" href="./docs.html">Docs</a>
-          </div>
+        <div class="d-inline-flex align-items-center">
+          <a class="navbar-brand" href="/">
+            <img src="./assets/logo.svg" alt="" width="30" height="30" class="d-inline-block align-text-top" />
+            Painter.js
+          </a>
+          <iframe
+            src="https://ghbtns.com/github-btn.html?user=Kujiale-Mobile&repo=Painter&type=star&count=true&size=large"
+            frameborder="0"
+            scrolling="0"
+            width="170"
+            height="30"
+            title="GitHub"
+          ></iframe>
+        </div>
+        <div class="navbar-nav">
+          <a class="nav-link" href="./docs.html">Docs</a>
         </div>
       </div>
-      <iframe
-        src="https://ghbtns.com/github-btn.html?user=Kujiale-Mobile&repo=Painter&type=star&count=true&size=large"
-        frameborder="0"
-        scrolling="0"
-        width="170"
-        height="30"
-        title="GitHub"
-      ></iframe>
     </nav>
     <div style="height: 80px; width: 100vw"></div>
     <div class="d-inline-flex">
@@ -79,7 +71,6 @@
     </div>
   </body>
   <script type="text/javascript">
-    
     var converter = new showdown.Converter();
     showdown.setFlavor('github');
     converter.setOption('tables', true);
