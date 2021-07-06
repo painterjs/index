@@ -12,7 +12,7 @@ npm install painter-kernel --save
 **CDN**
 ```html
 <script type="module">
-      import * as Painter from 'https://cdn.jsdelivr.net/npm/painter-kernel@latest/dist/painter.min.js'
+  import * as Painter from 'https://cdn.jsdelivr.net/npm/painter-kernel@latest/dist/painter.min.js'
 </script>      
 ```
 

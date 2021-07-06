@@ -523,7 +523,7 @@ export default class ShadowExample {
 #### Gradient suport
 
 ```css
- {
+{
   background: `linear-gradient(
     -135deg,
     blue 0%,
